@@ -1,0 +1,4 @@
+assets/src/*.ttf
+assets/src/*.css
+assets/src/__pycache__/
+preview*.html
