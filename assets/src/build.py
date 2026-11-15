@@ -83,7 +83,7 @@ def write(name, svg):
 # ---------------------------------------------------------------- banner
 def banner(lang, subtitle):
     W, H, B = 832, 220, 16
-    grass = dirt = ""
+    grass = dirt = speck = ""
     for i in range(W // B):
         h = 2 + round(1.6 + 1.4 * math.sin(i * 0.31) + 1.1 * math.sin(i * 0.11 + 1.7) + 0.6 * math.sin(i * 0.77))
         if i > 34:
@@ -93,6 +93,10 @@ def banner(lang, subtitle):
         top = H - h * B
         grass += "M%d %dh%dv%dh-%dz" % (i * B, top, B, B // 2, B)
         dirt += "M%d %dh%dV%dh-%dz" % (i * B, top + B // 2, B, H, B)
+        for yy in range(top + B, H, B):
+            k = (i * 7 + yy * 3) % 5
+            if k < 3:
+                speck += "M%d %dh4v4h-4z" % (i * B + 2 + k * 4, yy + 2 + (k * 5) % 8)
     groups = ["", "", ""]
     seed = 7
     for s in range(40):
@@ -117,7 +121,7 @@ def banner(lang, subtitle):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Juan Luci">
 <style>{css}</style>
 <defs>
-<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#120f2e"/><stop offset=".62" stop-color="#231c5c"/><stop offset="1" stop-color="#3b2f7e"/></linearGradient>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#120f2e"/><stop offset=".62" stop-color="#231c5c"/><stop offset="1" stop-color="#4a3a9a"/></linearGradient>
 <clipPath id="c"><rect width="{W}" height="{H}" rx="12"/></clipPath>
 </defs>
 <g clip-path="url(#c)">
@@ -126,7 +130,8 @@ def banner(lang, subtitle):
 <path class="tw t1" d="{groups[1]}" fill="#e9e4ff"/>
 <path class="tw t2" d="{groups[2]}" fill="#e9e4ff"/>
 <rect x="704" y="34" width="32" height="32" fill="#f3efe0"/><rect x="712" y="42" width="8" height="8" fill="#d9d3bd"/><rect x="724" y="52" width="6" height="6" fill="#d9d3bd"/>
-<path d="{dirt}" fill="#1a1440"/>
+<path d="{dirt}" fill="#0f0b26"/>
+<path d="{speck}" fill="#2b2263"/>
 <path d="{grass}" fill="{ACCENT}"/>
 <g font-family="PX, monospace">
 <text x="44" y="88" font-size="56" font-weight="700" fill="#0b0920" letter-spacing="1">{name}</text>
